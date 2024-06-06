@@ -59,7 +59,7 @@ function initPixelWorkers(pixelFn, fnsToInclude, constantsToInclude) {
                     const offset = 4 * start * width;
                     imgData.data.set(colorData, offset);
                     const elapsed = (new Date()) - startTime;
-                    console.log(`Worker ${i}: ${elapsed / 1000}s`);
+                    //console.log(`Worker ${i}: ${elapsed / 1000}s`);
                 });
         }));
         return imgData;
@@ -87,7 +87,7 @@ function initPixelWorkersInterlaced(pixelFn, fnsToInclude, constantsToInclude) {
         fnsToInclude = [pixelFn, ...(fnsToInclude ?? [])];
     }
     const workerParams = pixelWorkerFnInterlaced.params.replace("...childParams", pixelFn.params.split(",").slice(3).join(","));
-    const workers = initWorkers(pixelWorkerFnInterlaced, fnsToInclude, constantsToInclude, workerParams);
+    const workers = initWorkers(pixelWorkerFnInterlaced, fnsToInclude, constantsToInclude, undefined, workerParams);
     return async (width, height, workerParams) => {
         const imgData = new ImageData(width, height);
         const chunkSize = Math.ceil(height / workers.length);
@@ -100,7 +100,7 @@ function initPixelWorkersInterlaced(pixelFn, fnsToInclude, constantsToInclude) {
                         imgData.data.set(colorRow, 4 * (i + j * workers.length) * width);
                     }
                     const elapsed = (new Date()) - startTime;
-                    console.log(`Worker ${i}: ${elapsed / 1000}s`);
+                    //console.log(`Worker ${i}: ${elapsed / 1000}s`);
                 });
         }));
         return imgData;
